@@ -54,7 +54,7 @@ SharePoint2FA/
   Models/
     OtpEntry.cs                - OTP state object (hashed, salted, expiry)
     OtpValidationResult.cs     - Validation result enum
-    TwoFactorConfig.cs         - Typed web.config reader (SP2FA: prefix)
+    TwoFactorConfig.cs         - Typed web.config reader (TwoFactor: prefix)
   Services/
     OtpService.cs              - OTP generation, validation, cooldown tracking
     AdUserService.cs           - AD phone lookup with fallback + Saudi validation
@@ -122,13 +122,13 @@ See `Config/TwoFactorConfig.xml` for all keys. Minimum required:
 
 ```xml
 <!-- Active Directory -->
-<add key="SP2FA:ADDomain"    value="yourdomain.local" />
-<add key="SP2FA:ADUsername"  value="DOMAIN\svc_account" />
-<add key="SP2FA:ADPassword"  value="password" />
+<add key="TwoFactor:ADDomain"    value="yourdomain.local" />
+<add key="TwoFactor:ADUsername"  value="DOMAIN\svc_account" />
+<add key="TwoFactor:ADPassword"  value="password" />
 
 <!-- SMS Provider -->
-<add key="SP2FA:SmsApiUrl"   value="https://your-sms-api.com/send" />
-<add key="SP2FA:SmsApiKey"   value="YOUR_API_KEY" />
+<add key="TwoFactor:SmsApiUrl"   value="https://your-sms-api.com/send" />
+<add key="TwoFactor:SmsApiKey"   value="YOUR_API_KEY" />
 
 <!-- Module registration -->
 <add name="TwoFactorAuthModule"
@@ -141,40 +141,40 @@ See `Config/TwoFactorConfig.xml` for all keys. Minimum required:
 
 ## Configuration Reference
 
-All settings use the `SP2FA:` prefix in `web.config` `<appSettings>`.
+All settings use the `TwoFactor:` prefix in `web.config` `<appSettings>`.
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `SP2FA:ADDomain` | *(required)* | AD domain name |
-| `SP2FA:ADPhoneAttribute` | `mobile` | Primary AD attribute for mobile number |
-| `SP2FA:ADFallbackPhoneAttribute` | `extensionAttribute13` | Fallback AD attribute if primary is empty |
-| `SP2FA:ADUsername` | *(app pool)* | Service account for AD queries |
-| `SP2FA:SmsApiUrl` | *(required)* | SMS provider REST endpoint |
-| `SP2FA:SmsApiKey` | — | API key / Bearer token |
-| `SP2FA:OtpLength` | `6` | OTP digit count |
-| `SP2FA:OtpExpiryMinutes` | `5` | OTP validity window |
-| `SP2FA:MaxAttempts` | `3` | Failed attempts before OTP invalidated |
-| `SP2FA:MaxResends` | `3` | Maximum resend requests per session |
-| `SP2FA:ResendCooldownSeconds` | `120` | Seconds between resend requests |
-| `SP2FA:BypassPaths` | `/_layouts/15/TwoFactor/,...` | URL prefixes that skip 2FA |
-| `SP2FA:ExemptUsers` | — | SAM account names that skip 2FA |
-| `SP2FA:ExemptGroups` | — | AD group names whose members skip 2FA |
-| `SP2FA:EnableAuditLog` | `true` | Write events to Windows Event Log |
-| `SP2FA:MsgNoMobileFound` | *(default text)* | Message when no mobile found in AD |
-| `SP2FA:MsgInvalidMobile` | *(default text)* | Message when number fails validation |
-| `SP2FA:MsgSmsFailed` | *(default text)* | Message when SMS sending fails |
+| `TwoFactor:ADDomain` | *(required)* | AD domain name |
+| `TwoFactor:ADPhoneAttribute` | `mobile` | Primary AD attribute for mobile number |
+| `TwoFactor:ADFallbackPhoneAttribute` | `extensionAttribute13` | Fallback AD attribute if primary is empty |
+| `TwoFactor:ADUsername` | *(app pool)* | Service account for AD queries |
+| `TwoFactor:SmsApiUrl` | *(required)* | SMS provider REST endpoint |
+| `TwoFactor:SmsApiKey` | — | API key / Bearer token |
+| `TwoFactor:OtpLength` | `6` | OTP digit count |
+| `TwoFactor:OtpExpiryMinutes` | `5` | OTP validity window |
+| `TwoFactor:MaxAttempts` | `3` | Failed attempts before OTP invalidated |
+| `TwoFactor:MaxResends` | `3` | Maximum resend requests per session |
+| `TwoFactor:ResendCooldownSeconds` | `120` | Seconds between resend requests |
+| `TwoFactor:BypassPaths` | `/_layouts/15/TwoFactor/,...` | URL prefixes that skip 2FA |
+| `TwoFactor:ExemptUsers` | — | SAM account names that skip 2FA |
+| `TwoFactor:ExemptGroups` | — | AD group names whose members skip 2FA |
+| `TwoFactor:EnableAuditLog` | `true` | Write events to Windows Event Log |
+| `TwoFactor:MsgNoMobileFound` | *(default text)* | Message when no mobile found in AD |
+| `TwoFactor:MsgInvalidMobile` | *(default text)* | Message when number fails validation |
+| `TwoFactor:MsgSmsFailed` | *(default text)* | Message when SMS sending fails |
 
 ---
 
 ## Phone Number Lookup Logic
 
 ```
-Check SP2FA:ADPhoneAttribute (default: "mobile")
+Check TwoFactor:ADPhoneAttribute (default: "mobile")
   ├─ Found + valid Saudi number  → USE IT ✅
   ├─ Found but invalid format    → check fallback attribute
   └─ Empty                       → check fallback attribute
 
-Check SP2FA:ADFallbackPhoneAttribute (default: "extensionAttribute13")
+Check TwoFactor:ADFallbackPhoneAttribute (default: "extensionAttribute13")
   ├─ Found + valid Saudi number  → USE IT ✅
   ├─ Found but invalid format    → show "invalid number" message ❌
   └─ Empty                       → show "no mobile found" message ❌
