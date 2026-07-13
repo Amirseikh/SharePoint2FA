@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SharePoint2FA — web.config additions
+  =====================================
+  Apply to: C:\inetpub\wwwroot\wss\VirtualDirectories\<port>\web.config
+  Backup first: Copy-Item web.config "web.config.bak_$(Get-Date -Format 'yyyyMMdd_HHmm')"
+
+  All keys use the prefix "SP2FA:" to avoid conflicts with SharePoint's own settings.
+-->
+<configuration>
+
+  <!-- ── 1. Add inside existing <appSettings> ──────────────────────────────── -->
+  <appSettings>
+
+    <!-- Active Directory -->
+    <add key="SP2FA:ADDomain"                 value="yourdomain.local" />
+    <add key="SP2FA:ADPhoneAttribute"          value="mobile" />
+    <add key="SP2FA:ADFallbackPhoneAttribute"  value="extensionAttribute13" />
+    <!-- Service account for AD queries. Leave empty to use IIS app pool identity. -->
+    <add key="SP2FA:ADUsername"                value="DOMAIN\svc_account" />
+    <add key="SP2FA:ADPassword"                value="YOUR_AD_PASSWORD" />
+
+    <!-- SMS REST API — adapt to your provider -->
+    <add key="SP2FA:SmsApiUrl"        value="https://your-sms-provider.com/api/send" />
+    <add key="SP2FA:SmsApiKey"        value="YOUR_API_KEY_OR_JWT_TOKEN" />
+    <add key="SP2FA:SmsApiPassword"   value="YOUR_SMS_PASSWORD" />
+    <add key="SP2FA:SmsSenderId"      value="Portal" />
+    <add key="SP2FA:SmsUsername"      value="" />
+
+    <!-- OTP Settings -->
+    <add key="SP2FA:OtpLength"              value="6" />
+    <add key="SP2FA:OtpExpiryMinutes"       value="5" />
+    <add key="SP2FA:MaxAttempts"            value="3" />
+    <add key="SP2FA:MaxResends"             value="3" />
+    <add key="SP2FA:ResendCooldownSeconds"  value="120" />
+
+    <!-- Module Behaviour -->
+    <add key="SP2FA:BypassPaths"
+         value="/_layouts/15/TwoFactor/,/_vti_bin/,/_api/,/_catalogs/,/_controltemplates/,/favicon.ico,/robots.txt" />
+    <!-- Comma-separated SAM account names that skip 2FA -->
+    <add key="SP2FA:ExemptUsers"       value="sp_farm,sp_admin,administrator" />
+    <!-- Comma-separated AD group names whose members skip 2FA -->
+    <add key="SP2FA:ExemptGroups"      value="Domain Admins,SP_ServiceAccounts" />
+    <add key="SP2FA:EnableAuditLog"    value="true" />
+    <add key="SP2FA:TwoFactorPagePath" value="/_layouts/15/TwoFactor/TwoFactorAuth.aspx" />
+
+    <!-- UI Messages — change without rebuilding, just iisreset -->
+    <add key="SP2FA:MsgNoMobileTitle"
+         value="Mobile Number Required" />
+    <add key="SP2FA:MsgNoMobileFound"
+         value="We could not find a mobile number associated with your account in Active Directory. Please contact your IT/AD team to register your mobile number so you can access the portal." />
+    <add key="SP2FA:MsgInvalidMobile"
+         value="A number was found on your account but it does not appear to be a valid mobile number. Please contact your IT/AD team to correct your mobile number so you can access the portal." />
+    <add key="SP2FA:MsgSmsFailed"
+         value="Failed to send verification code. Please try again or contact IT support." />
+
+  </appSettings>
+
+  <!-- ── 2. Add inside <system.web> ────────────────────────────────────────── -->
+  <system.web>
+    <sessionState mode="InProc" cookieless="false" timeout="60" />
+    <customErrors mode="RemoteOnly" />
+  </system.web>
+
+  <!-- ── 3. Inside <system.webServer><modules> ─────────────────────────────── -->
+  <system.webServer>
+    <modules>
+      <!-- Uncomment the existing commented-out line: -->
+      <remove name="Session" />
+      <!-- Add Session module after it: -->
+      <add name="Session"
+           type="System.Web.SessionState.SessionStateModule"
+           preCondition="" />
+      <!-- Add 2FA module — replace YOUR_PUBLIC_KEY_TOKEN with value from sn.exe -T: -->
+      <add name="TwoFactorAuthModule"
+           type="SharePoint2FA.TwoFactorAuthModule, SharePoint2FA, Version=1.0.0.0, Culture=neutral, PublicKeyToken=YOUR_PUBLIC_KEY_TOKEN"
+           preCondition="managedHandler" />
+    </modules>
+  </system.webServer>
+
+</configuration>

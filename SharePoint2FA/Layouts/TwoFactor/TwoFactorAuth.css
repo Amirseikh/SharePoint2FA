@@ -1,0 +1,129 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sp2fa-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+}
+
+.sp2fa-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0,0,0,.10);
+    width: 100%;
+    max-width: 440px;
+    padding: 40px 36px 32px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.sp2fa-header { text-align: center; margin-bottom: 28px; }
+
+.sp2fa-shield {
+    width: 60px; height: 60px;
+    background: #e8f5ee;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    color: #005b37;
+}
+.sp2fa-shield svg { width: 30px; height: 30px; }
+
+.sp2fa-title   { font-size: 21px; font-weight: 600; color: #005b37; margin-bottom: 4px; }
+.sp2fa-subtitle { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; }
+
+.sp2fa-header::after {
+    content: ''; display: block;
+    width: 48px; height: 3px;
+    background: #005b37; border-radius: 2px;
+    margin: 14px auto 0;
+}
+
+/* ── Text ───────────────────────────────────────────────────────── */
+.sp2fa-welcome { font-size: 14px; color: #374151; margin-bottom: 10px; }
+.sp2fa-info    { font-size: 13px; color: #4b5563; line-height: 1.6; margin-bottom: 16px; }
+.sp2fa-info-sm { display: block; font-size: 12px; color: #9ca3af; margin-top: 8px; text-align: center; }
+
+/* ── Phone box ──────────────────────────────────────────────────── */
+.sp2fa-phone-box {
+    display: flex; align-items: center; gap: 10px;
+    background: #f0faf4; border: 1px solid #86efac;
+    border-radius: 8px; padding: 10px 14px;
+    margin-bottom: 22px;
+    font-size: 16px; font-weight: 600; color: #15803d; letter-spacing: 1px;
+}
+.sp2fa-phone-box svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── OTP input ──────────────────────────────────────────────────── */
+.sp2fa-otp {
+    display: block; width: 100%;
+    font-size: 28px; font-weight: 600; text-align: center; letter-spacing: 12px;
+    padding: 14px 12px;
+    border: 1.5px solid #d1d5db; border-radius: 8px;
+    background: #f9fafb; color: #111827; outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    margin-bottom: 6px;
+}
+.sp2fa-otp:focus { border-color: #005b37; background: #fff; box-shadow: 0 0 0 3px rgba(0,91,55,.12); }
+.sp2fa-otp-hint  { font-size: 12px; color: #9ca3af; text-align: center; margin-bottom: 18px; }
+
+/* ── Expiry ─────────────────────────────────────────────────────── */
+.sp2fa-expiry {
+    font-size: 12px; color: #6b7280;
+    background: #fffbeb; border: 1px solid #fde68a;
+    border-radius: 6px; padding: 7px 12px;
+    text-align: center; margin-bottom: 16px;
+}
+.sp2fa-expiry strong { color: #b45309; }
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.sp2fa-actions { display: flex; gap: 8px; }
+
+.sp2fa-btn {
+    flex: 1; padding: 12px 16px;
+    border: none; border-radius: 7px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background .15s, transform .1s;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+.sp2fa-btn--primary            { background: #005b37; color: #fff; }
+.sp2fa-btn--primary:hover      { background: #004528; transform: translateY(-1px); }
+.sp2fa-btn--primary:disabled   { background: #9ca3af; cursor: not-allowed; transform: none; }
+.sp2fa-btn--secondary          { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+.sp2fa-btn--secondary:hover    { background: #e5e7eb; }
+.sp2fa-btn--secondary:disabled,
+.sp2fa-btn--secondary.aspNetDisabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; opacity: .6; }
+.sp2fa-step > .sp2fa-btn       { width: 100%; margin-top: 4px; }
+
+/* ── Alerts ─────────────────────────────────────────────────────── */
+.sp2fa-alert { padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.65; margin-bottom: 20px; }
+.sp2fa-alert--error   { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+.sp2fa-alert--warning { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
+
+.sp2fa-error    { display: block; margin-top: 12px; font-size: 13px; color: #dc2626; font-weight: 500; }
+.sp2fa-attempts { display: block; font-size: 12px; color: #f59e0b; margin-top: 4px; }
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.sp2fa-footer {
+    text-align: center; font-size: 11px; color: #9ca3af;
+    margin-top: 28px; padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+@media (max-width: 480px) {
+    .sp2fa-card    { padding: 28px 20px 24px; }
+    .sp2fa-title   { font-size: 18px; }
+    .sp2fa-otp     { font-size: 22px; letter-spacing: 8px; }
+    .sp2fa-actions { flex-direction: column; }
+}

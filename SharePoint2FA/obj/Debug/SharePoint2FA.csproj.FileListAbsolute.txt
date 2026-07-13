@@ -1,0 +1,6 @@
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\bin\Debug\SharePoint2FA.dll
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\bin\Debug\SharePoint2FA.pdb
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\obj\Debug\SharePoint2FA.csproj.AssemblyReference.cache
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\obj\Debug\SharePoint2FA.csproj.CoreCompileInputs.cache
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\obj\Debug\SharePoint2FA.dll
+C:\Users\amirr.MOH\Downloads\SharePoint2FA_Generic\SharePoint2FA\SharePoint2FA\obj\Debug\SharePoint2FA.pdb
